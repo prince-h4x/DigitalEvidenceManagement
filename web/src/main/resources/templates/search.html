@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence Search | EvidenceOS</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        .page-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        .panel {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            border-radius: 14px;
+            padding: 26px;
+            margin-bottom: 28px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 12px;
+        }
+
+        .search-form input {
+            flex: 1;
+            min-width: 0;
+            padding: 13px 15px;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #f8fafc;
+            font: inherit;
+        }
+
+        .search-form input:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        .primary-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 22px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .primary-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+            font-size: 13px;
+        }
+
+        th {
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        td {
+            color: #e2e8f0;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #94a3b8;
+            padding: 30px;
+        }
+
+        .back-link {
+            color: #7dd3fc;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .result-heading {
+            margin-top: 0;
+            margin-bottom: 22px;
+            font-size: 19px;
+        }
+
+        .description {
+            max-width: 300px;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 600px) {
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <div class="page-header">
+        <div>
+            <h1>Evidence Search</h1>
+            <p>Search and locate registered digital evidence records.</p>
+        </div>
+
+        <a th:href="@{/}" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <section class="panel">
+
+        <h2 class="result-heading">Search Evidence Records</h2>
+
+        <form th:action="@{/search}" method="get" class="search-form">
+
+            <input type="text"
+                   name="keyword"
+                   th:value="${keyword}"
+                   placeholder="Search by name, type or description..."
+                   required>
+
+            <button type="submit" class="primary-btn">
+                Search
+            </button>
+
+        </form>
+
+    </section>
+
+    <section class="panel" th:if="${searchResults != null}">
+
+        <h2 class="result-heading">
+            Search Results
+            (<span th:text="${#lists.size(searchResults)}">0</span>)
+        </h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Evidence Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Linked Case</th>
+                    <th>Submission Date</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="item : ${searchResults}">
+
+                    <td th:text="${item.id}"></td>
+
+                    <td th:text="${item.name}"></td>
+
+                    <td th:text="${item.type}"></td>
+
+                    <td class="description"
+                        th:text="${item.description}">
+                    </td>
+
+                    <td th:text="${item.linkedCase.title}"></td>
+
+                    <td th:text="${item.submissionDate}"></td>
+
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(searchResults)}">
+                    <td colspan="6" class="empty-state">
+                        No matching evidence records found.
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+</html>

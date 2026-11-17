@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Reports | EvidenceOS</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        .page-container {
+            max-width: 1250px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        .back-link {
+            color: #7dd3fc;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            border-radius: 12px;
+            padding: 22px;
+        }
+
+        .stat-card p {
+            color: #94a3b8;
+            font-size: 13px;
+            margin: 0 0 12px;
+        }
+
+        .stat-card h2 {
+            margin: 0;
+            font-size: 30px;
+            color: #f8fafc;
+        }
+
+        .panel {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            border-radius: 14px;
+            padding: 26px;
+            margin-bottom: 28px;
+        }
+
+        .panel h2 {
+            margin-top: 0;
+            margin-bottom: 22px;
+            font-size: 19px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+            font-size: 13px;
+        }
+
+        th {
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        td {
+            color: #e2e8f0;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            background: rgba(37, 99, 235, 0.15);
+            color: #93c5fd;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #94a3b8;
+            padding: 25px;
+        }
+
+        .print-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 18px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .print-btn:hover {
+            background: #1d4ed8;
+        }
+
+        @media (max-width: 800px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 550px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+
+            .page-container {
+                max-width: 100%;
+                margin: 0;
+            }
+
+            .panel, .stat-card {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                break-inside: avoid;
+            }
+
+            h1, h2, th, td, .stat-card h2, .stat-card p {
+                color: black !important;
+            }
+
+            .back-link, .print-btn {
+                display: none !important;
+            }
+
+            th, td {
+                border-bottom: 1px solid #ccc !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <div class="page-header">
+        <div>
+            <h1>Case Reports</h1>
+            <p>Investigation statistics and evidence management reports.</p>
+        </div>
+
+        <div>
+            <a th:href="@{/}" class="back-link">← Dashboard</a>
+            <button class="print-btn" onclick="window.print()">
+                Print Report
+            </button>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+            <p>Total Cases</p>
+            <h2 th:text="${totalCases}">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Open Cases</p>
+            <h2 th:text="${openCases}">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Under Investigation</p>
+            <h2 th:text="${investigationCases}">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Closed Cases</p>
+            <h2 th:text="${closedCases}">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Total Evidence Records</p>
+            <h2 th:text="${totalEvidence}">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Custody Entries</p>
+            <h2 th:text="${totalCustody}">0</h2>
+        </div>
+
+    </section>
+
+    <!-- Case Report -->
+
+    <section class="panel">
+
+        <h2>Investigation Records</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Case ID</th>
+                    <th>Case Title</th>
+                    <th>Investigator</th>
+                    <th>Registration Date</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="item : ${cases}">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.title}"></td>
+                    <td th:text="${item.investigator}"></td>
+                    <td th:text="${item.registrationDate}"></td>
+                    <td>
+                        <span class="status"
+                              th:text="${item.status}">
+                        </span>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(cases)}">
+                    <td colspan="5" class="empty-state">
+                        No investigation records available.
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- Evidence Report -->
+
+    <section class="panel">
+
+        <h2>Evidence Records</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Evidence ID</th>
+                    <th>Evidence Name</th>
+                    <th>Type</th>
+                    <th>Linked Case</th>
+                    <th>Submission Date</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="item : ${evidenceList}">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.type}"></td>
+                    <td th:text="${item.linkedCase.title}"></td>
+                    <td th:text="${item.submissionDate}"></td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(evidenceList)}">
+                    <td colspan="5" class="empty-state">
+                        No evidence records available.
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- Custody Report -->
+
+    <section class="panel">
+
+        <h2>Chain of Custody Report</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Entry ID</th>
+                    <th>Evidence</th>
+                    <th>Transferred By</th>
+                    <th>Transferred To</th>
+                    <th>Location</th>
+                    <th>Date & Time</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="entry : ${custodyEntries}">
+                    <td th:text="${entry.id}"></td>
+                    <td th:text="${entry.evidence.name}"></td>
+                    <td th:text="${entry.transferredBy}"></td>
+                    <td th:text="${entry.transferredTo}"></td>
+                    <td th:text="${entry.location}"></td>
+                    <td th:text="${#temporals.format(entry.transferDate, 'dd MMM yyyy, hh:mm a')}"></td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(custodyEntries)}">
+                    <td colspan="6" class="empty-state">
+                        No custody entries available.
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chain of Custody | EvidenceOS</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        .page-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        .panel {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            border-radius: 14px;
+            padding: 26px;
+            margin-bottom: 28px;
+        }
+
+        .panel h2 {
+            margin-top: 0;
+            margin-bottom: 22px;
+            font-size: 19px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 14px;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #f8fafc;
+            font: inherit;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        .primary-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .primary-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .delete-btn {
+            background: #7f1d1d;
+            color: #fecaca;
+            border: 1px solid #991b1b;
+            padding: 7px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+            font-size: 13px;
+        }
+
+        th {
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        td {
+            color: #e2e8f0;
+        }
+
+        .message {
+            padding: 13px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            background: rgba(22, 163, 74, 0.12);
+            color: #86efac;
+            border: 1px solid rgba(22, 163, 74, 0.3);
+        }
+
+        .error {
+            background: rgba(220, 38, 38, 0.12);
+            color: #fca5a5;
+            border: 1px solid rgba(220, 38, 38, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #94a3b8;
+            padding: 30px;
+        }
+
+        .back-link {
+            color: #7dd3fc;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <div class="page-header">
+        <div>
+            <h1>Chain of Custody</h1>
+            <p>Track evidence transfers and maintain custody history.</p>
+        </div>
+
+        <a th:href="@{/}" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <div th:if="${successMessage}"
+         class="message success"
+         th:text="${successMessage}">
+    </div>
+
+    <div th:if="${errorMessage}"
+         class="message error"
+         th:text="${errorMessage}">
+    </div>
+
+    <section class="panel">
+
+        <h2>Record Evidence Transfer</h2>
+
+        <form th:action="@{/custody}"
+              th:object="${newEntry}"
+              method="post">
+
+            <div class="form-grid">
+
+                <div class="form-group full">
+                    <label>Select Evidence</label>
+
+                    <select name="evidenceId" required>
+                        <option value="">Select registered evidence</option>
+
+                        <option th:each="item : ${evidenceList}"
+                                th:value="${item.id}"
+                                th:text="${item.name + ' (Evidence #' + item.id + ')'}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Transferred By</label>
+                    <input type="text"
+                           th:field="*{transferredBy}"
+                           placeholder="Enter sender name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Transferred To</label>
+                    <input type="text"
+                           th:field="*{transferredTo}"
+                           placeholder="Enter receiver name"
+                           required>
+                </div>
+
+                <div class="form-group full">
+                    <label>Transfer Location</label>
+                    <input type="text"
+                           th:field="*{location}"
+                           placeholder="Enter transfer location">
+                </div>
+
+                <div class="form-group full">
+                    <label>Remarks</label>
+                    <textarea th:field="*{remarks}"
+                              placeholder="Enter transfer remarks..."></textarea>
+                </div>
+
+                <div class="form-group full">
+                    <button type="submit" class="primary-btn">
+                        Save Custody Record
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>Custody History</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Evidence</th>
+                    <th>Transferred By</th>
+                    <th>Transferred To</th>
+                    <th>Location</th>
+                    <th>Date & Time</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="entry : ${custodyEntries}">
+
+                    <td th:text="${entry.id}"></td>
+
+                    <td th:text="${entry.evidence.name}"></td>
+
+                    <td th:text="${entry.transferredBy}"></td>
+
+                    <td th:text="${entry.transferredTo}"></td>
+
+                    <td th:text="${entry.location}"></td>
+
+                    <td th:text="${#temporals.format(entry.transferDate, 'dd MMM yyyy, hh:mm a')}"></td>
+
+                    <td>
+                        <form th:action="@{/custody/delete/{id}(id=${entry.id})}"
+                              method="post"
+                              onsubmit="return confirm('Delete this custody record?');">
+
+                            <button type="submit" class="delete-btn">
+                                Delete
+                            </button>
+
+                        </form>
+                    </td>
+
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(custodyEntries)}">
+                    <td colspan="7" class="empty-state">
+                        No custody records available yet.
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+</html>

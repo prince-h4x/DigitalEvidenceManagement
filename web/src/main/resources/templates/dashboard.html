@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EvidenceOS | Command Center</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">E</div>
+            <div>
+                <h2>EvidenceOS</h2>
+                <span>FORENSIC MANAGEMENT</span>
+            </div>
+        </div>
+
+        <div class="nav-label">WORKSPACE</div>
+        <nav>
+            <a class="nav-item active" href="/">▦ <span>Dashboard</span></a>
+            <a class="nav-item" href="/cases">▤ <span>Case Registration</span></a>
+            <a class="nav-item" href="/evidence">◈ <span>Evidence Entry</span></a>
+            <a class="nav-item" href="/custody">⇄ <span>Chain of Custody</span></a>
+            <a class="nav-item" href="/search">⌕ <span>Evidence Search</span></a>
+            <a class="nav-item" href="/reports">▧ <span>Case Reports</span></a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="system-status"><span></span> SYSTEM OPERATIONAL</div>
+            <p>GROUP 09 · DIGITAL EVIDENCE MANAGEMENT</p>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <span class="eyebrow">OVERVIEW / COMMAND CENTER</span>
+                <h1>Dashboard</h1>
+            </div>
+            <div class="top-right">
+                <span class="live-dot"></span>
+                <span>Live workspace</span>
+                <div class="avatar">G9</div>
+            </div>
+        </header>
+
+        <section class="welcome">
+            <div>
+                <span class="eyebrow blue">DIGITAL FORENSICS WORKSPACE</span>
+                <h2>Investigation Command Center</h2>
+                <p>Manage cases, organize digital evidence and maintain a transparent chain of custody.</p>
+            </div>
+            <div class="welcome-mark">E</div>
+        </section>
+
+        <section class="section-heading">
+            <div>
+                <h3>System Overview</h3>
+                <p>Your investigation workspace at a glance</p>
+            </div>
+            <span class="date-label">GROUP 09 PROJECT</span>
+        </section>
+
+        <!-- DYNAMIC DASHBOARD STATISTICS -->
+        <section class="stats">
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Total Cases</span>
+                    <span class="stat-icon">▤</span>
+                </div>
+                <strong th:text="${totalCases}">0</strong>
+                <small>Registered investigations</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Evidence Records</span>
+                    <span class="stat-icon">◈</span>
+                </div>
+                <strong th:text="${totalEvidence}">0</strong>
+                <small>Digital evidence entries</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Custody Entries</span>
+                    <span class="stat-icon">⇄</span>
+                </div>
+                <strong th:text="${totalCustody}">0</strong>
+                <small>Chain of custody records</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Open Cases</span>
+                    <span class="stat-icon">◎</span>
+                </div>
+                <strong th:text="${openCases}">0</strong>
+                <small>Active investigations</small>
+            </div>
+
+        </section>
+
+        <!-- INVESTIGATION MODULES -->
+        <section class="section-heading modules-heading">
+            <div>
+                <h3>Investigation Modules</h3>
+                <p>Access the core system operations</p>
+            </div>
+        </section>
+
+        <section class="modules">
+
+            <a href="/cases" class="module-card">
+                <div class="module-icon">▤</div>
+                <h4>Case Registration</h4>
+                <p>Create investigation records and manage case information.</p>
+                <span>OPEN MODULE →</span>
+            </a>
+
+            <a href="/evidence" class="module-card">
+                <div class="module-icon">◈</div>
+                <h4>Evidence Entry</h4>
+                <p>Register digital evidence with descriptions and case references.</p>
+                <span>OPEN MODULE →</span>
+            </a>
+
+            <a href="/custody" class="module-card">
+                <div class="module-icon">⇄</div>
+                <h4>Chain of Custody</h4>
+                <p>Maintain evidence transfer and handling records.</p>
+                <span>OPEN MODULE →</span>
+            </a>
+
+            <a href="/search" class="module-card">
+                <div class="module-icon">⌕</div>
+                <h4>Evidence Search</h4>
+                <p>Find and review registered evidence records.</p>
+                <span>OPEN MODULE →</span>
+            </a>
+
+            <a href="/reports" class="module-card">
+                <div class="module-icon">▧</div>
+                <h4>Case Reports</h4>
+                <p>Review consolidated investigation information.</p>
+                <span>OPEN MODULE →</span>
+            </a>
+
+        </section>
+
+        <!-- RECENT INVESTIGATIONS -->
+        <section class="section-heading">
+            <div>
+                <h3>Recent Investigations</h3>
+                <p>Latest registered cases</p>
+            </div>
+            <a href="/cases" class="date-label">VIEW ALL →</a>
+        </section>
+
+        <section class="modules">
+
+            <div th:if="${#lists.isEmpty(recentCases)}">
+                <p>No investigations registered yet.</p>
+            </div>
+
+            <div th:each="item : ${recentCases}" class="module-card">
+                <h4 th:text="${item.title}">Case Title</h4>
+                <p th:text="${item.investigator}">Investigator</p>
+                <p th:text="${item.status}">Status</p>
+                <small th:text="${item.registrationDate}">Date</small>
+            </div>
+
+        </section>
+
+        <footer>
+            DIGITAL EVIDENCE MANAGEMENT SYSTEM
+            <span>·</span> GROUP 09
+            <span class="footer-right">SECURE WORKSPACE</span>
+        </footer>
+
+    </main>
+</div>
+</body>
+</html>
