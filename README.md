@@ -4,6 +4,7 @@
 
 
 
+
 <div align="center">
 
 # ⚡ THE TEAM BEHIND THE SYSTEM
@@ -29,9 +30,9 @@
 <img src="https://github.com/prince-h4x.png" width="120" alt="Prince"/>
 </a>
 
-**PROJECT LEAD**
+**BACKEND DEVELOPER**
 
-`Backend Developer`
+`Backend & Database`
 
 Java • Spring Boot • Database Integration
 
@@ -48,11 +49,11 @@ Java • Spring Boot • Database Integration
 <img src="https://github.com/rohannnbhandari39.png" width="120" alt="Rohan"/>
 </a>
 
-**FRONTEND DEVELOPER**
+**PROJECT LEAD**
 
-`UI / UX Design`
+`Frontend Developer`
 
-HTML • CSS • Thymeleaf
+UI / UX • HTML • CSS • Thymeleaf
 
 <a href="https://github.com/rohannnbhandari39">
 <img src="https://img.shields.io/badge/GitHub-@rohannnbhandari39-181717?style=for-the-badge&logo=github" />
@@ -92,6 +93,7 @@ Testing • Debugging • Documentation
 *Academic Project • Digital Evidence Management System*
 
 </div>
+
 
 
 
