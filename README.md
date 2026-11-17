@@ -2,6 +2,18 @@
 
 **Object-Oriented Programming Using Java (OOPJ)**
 
+
+## 👥 Team Members — Group 09
+
+| Name | GitHub Profile | Role |
+
+|---|---|---|
+
+| Prince  [ @prince-h4x]((https://github.com/prince-h4x)) | Team Member - 1 : Backend Developer |
+| Rohan | [@rohannnbhandari39](https://github.com/rohannnbhandari39) | Project Leader : Frontend Developer|
+| Sujal | [@sc2534chauhan-create](https://github.com/sc2534chauhan-create) | Team Member - 2 : Testing & Documentation Lead|
+
+
 ## 1. Project Overview
 
 The Digital Evidence Management System is a Java-based desktop application designed to manage digital evidence associated with investigation cases. It provides a centralized interface for registering cases, adding evidence, maintaining chain-of-custody records, searching evidence, and generating case reports.
