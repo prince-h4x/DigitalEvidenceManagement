@@ -3,15 +3,96 @@
 **Object-Oriented Programming Using Java (OOPJ)**
 
 
-## 👥 Team Members — Group 09
 
-| Name | GitHub Profile | Role |
+<div align="center">
 
-|---|---|---|
+# ⚡ THE TEAM BEHIND THE SYSTEM
 
-| Prince  [ @prince-h4x]((https://github.com/prince-h4x)) | Team Member - 1 : Backend Developer |
-| Rohan | [@rohannnbhandari39](https://github.com/rohannnbhandari39) | Project Leader : Frontend Developer|
-| Sujal | [@sc2534chauhan-create](https://github.com/sc2534chauhan-create) | Team Member - 2 : Testing & Documentation Lead|
+### DIGITAL EVIDENCE MANAGEMENT SYSTEM
+**GROUP 09**
+
+*Three minds. One vision. One powerful system.*
+
+</div>
+
+---
+
+## 👨‍💻 MEET THE DEVELOPERS
+
+<table align="center">
+<tr>
+<td align="center" width="33%">
+
+### 👑 PRINCE BHARDWAJ
+
+<a href="https://github.com/prince-h4x">
+<img src="https://github.com/prince-h4x.png" width="120" alt="Prince"/>
+</a>
+
+**PROJECT LEAD**
+
+`Backend Developer`
+
+Java • Spring Boot • Database Integration
+
+<a href="https://github.com/prince-h4x">
+<img src="https://img.shields.io/badge/GitHub-@prince--h4x-181717?style=for-the-badge&logo=github" />
+</a>
+
+</td>
+<td align="center" width="33%">
+
+### 🚀 ROHAN
+
+<a href="https://github.com/rohannnbhandari39">
+<img src="https://github.com/rohannnbhandari39.png" width="120" alt="Rohan"/>
+</a>
+
+**FRONTEND DEVELOPER**
+
+`UI / UX Design`
+
+HTML • CSS • Thymeleaf
+
+<a href="https://github.com/rohannnbhandari39">
+<img src="https://img.shields.io/badge/GitHub-@rohannnbhandari39-181717?style=for-the-badge&logo=github" />
+</a>
+
+</td>
+<td align="center" width="33%">
+
+### 🧪 SUJAL
+
+<a href="https://github.com/sc2534chauhan-create">
+<img src="https://github.com/sc2534chauhan-create.png" width="120" alt="Sujal"/>
+</a>
+
+**QA & DOCUMENTATION LEAD**
+
+`Testing & Quality Assurance`
+
+Testing • Debugging • Documentation
+
+<a href="https://github.com/sc2534chauhan-create">
+<img src="https://img.shields.io/badge/GitHub-@sc2534chauhan--create-181717?style=for-the-badge&logo=github" />
+</a>
+
+</td>
+</tr>
+</table>
+
+---
+
+<div align="center">
+
+### 🏆 GROUP 09
+
+**Built with teamwork, dedication & innovation.**
+
+*Academic Project • Digital Evidence Management System*
+
+</div>
+
 
 
 ## 1. Project Overview
